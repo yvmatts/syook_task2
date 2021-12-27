@@ -25,16 +25,15 @@ mongoose.connect(conf.dbURI)
         console.log('made socket connection', socket.id)
         //Create socket events
         socket.on('message',async(data) => {
-
         try {
           let d  = new Date()
           let minutes = d.getMinutes()
           let hours = d.getHours()
           //validate integrity
-          //let val_res = integrity.validateIntegrity(data)
-          await db.saveToDb('' + hours + ':' + minutes, data, socket.id)
-          socket.broadcast.emit('message', data)
-          console.log(data)
+          let val_res = await integrity.validateIntegrity(data)
+          //save to db
+          await db.saveToDb('' + hours + ':' + minutes, val_res, socket.id)
+          socket.broadcast.emit('message', val_res)
         } catch (e) {
           console.log(e)
         }

@@ -8,7 +8,6 @@ function check(dec_obj) {
   if(SHA256('' + dec_obj.name + dec_obj.origin + dec_obj.destination) === dec_obj.secretKey ) {
     return true
   }
-
 }
 
 function validateIntegrity(data) {
@@ -17,5 +16,4 @@ function validateIntegrity(data) {
   let result = dec_data.filter(check)
   return dec_data
 }
-
-module.exports = validateIntegrity
+module.exports = {validateIntegrity}
