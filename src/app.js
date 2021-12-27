@@ -4,8 +4,9 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const conf = require('./conf')
 const cors = require('cors')
-
+const integrity = require('./util/integrity')
 const port = process.env.PORT || 8000
+const db = require('./util/saveToDb')
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -20,14 +21,23 @@ mongoose.connect(conf.dbURI)
     const server = app.listen(port)
     //Connect to socket
     const io = socket(server)
-    io.on('connection', (socket) =>{
+    io.on('connection', async(socket) =>{
         console.log('made socket connection', socket.id)
         //Create socket events
-        socket.on('message',(data) => {
-          //save data here
-          //broadcast data
+        socket.on('message',async(data) => {
+
+        try {
+          let d  = new Date()
+          let minutes = d.getMinutes()
+          let hours = d.getHours()
+          //validate integrity
+          //let val_res = integrity.validateIntegrity(data)
+          await db.saveToDb('' + hours + ':' + minutes, data, socket.id)
           socket.broadcast.emit('message', data)
           console.log(data)
+        } catch (e) {
+          console.log(e)
+        }
         })
     })
   })

@@ -1,3 +1,4 @@
+
 const data = require('../content/data')
 
 function randomize() {
@@ -5,14 +6,14 @@ function randomize() {
     let name_index = 0
     let origin_city_index = 0
     let destination_city_index = 0
-    let org_message = {
-      name: '',
-      origin: '',
-      destination: ''
-    }
-    let ds = [];
     return function getDs() {
+      let ds = [];
       for(let i = 0; i< ds_size; i++) {
+        let org_message = {
+          name: '',
+          origin: '',
+          destination: ''
+        };
         name_index = Math.floor(Math.random() * data.names.length)
         origin_city_index = Math.floor(Math.random() * data.cities.length)
         destination_city_index = Math.floor(Math.random() * data.cities.length)
@@ -24,5 +25,4 @@ function randomize() {
       return ds
     }
 }
-
 module.exports = {randomize}
