@@ -11,9 +11,13 @@ function check(dec_obj) {
 }
 
 function validateIntegrity(data) {
-  let dec_data = CryptoJS.AES.decrypt(data, conf.secretKey)
-  dec_data = JSON.parse(dec_data.toString(CryptoJS.enc.Utf8))
-  let result = dec_data.filter(check)
-  return dec_data
+  try {
+    let dec_data = CryptoJS.AES.decrypt(data, conf.secretKey)
+    dec_data = JSON.parse(dec_data.toString(CryptoJS.enc.Utf8))
+    let result = dec_data.filter(check)
+    return dec_data
+  } catch (e) {
+    console.log(e)
+  }
 }
 module.exports = {validateIntegrity}
