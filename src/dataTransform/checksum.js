@@ -7,7 +7,7 @@ function checksum() {
 
   return function getCheckSumDs() {
     for(let i = 0; i< checksum_ds.length; i++) {
-      checksum_ds[i].secretKey = SHA256('' + checksum_ds[i].name + checksum_ds[i].origin + checksum_ds[i].destination).toString()
+      checksum_ds[i].secretKey = SHA256(JSON.stringify(checksum_ds[i])).toString()
     }
     return checksum_ds
   }
